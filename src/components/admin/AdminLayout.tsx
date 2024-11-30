@@ -8,6 +8,7 @@ import {
   LogoutOutlined,
   TeamOutlined,
   DollarOutlined,
+  VideoCameraOutlined,
 } from "@ant-design/icons";
 
 const { Header, Sider, Content } = Layout;
@@ -79,6 +80,11 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               key: "/admin/sponsorships",
               icon: <DollarOutlined />,
               label: "Sponsorships",
+            },
+            {
+              key: "/admin/streaming",
+              icon: <VideoCameraOutlined />,
+              label: "Streaming",
             },
           ]}
         />
