@@ -8,8 +8,12 @@ import {
   Select,
   message,
   Popconfirm,
+  DatePicker,
 } from "antd";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
+
+const { RangePicker } = DatePicker;
 
 interface Manager {
   managerId: number;
@@ -87,11 +91,15 @@ const ArtistsTable: React.FC = () => {
     name: string;
     genre: string;
     contactInfo: string;
-    availability: string;
+    availability: [dayjs.Dayjs, dayjs.Dayjs];
     socialMediaLink: string;
     managerId: string;
   }) => {
     try {
+      const formattedAvailability = `${values.availability[0].format(
+        "YYYY-MM-DD"
+      )} - ${values.availability[1].format("YYYY-MM-DD")}`;
+
       const response = await fetch("http://localhost:3000/api/artists", {
         method: "POST",
         headers: {
@@ -99,6 +107,7 @@ const ArtistsTable: React.FC = () => {
         },
         body: JSON.stringify({
           ...values,
+          availability: formattedAvailability,
           managerId: parseInt(values.managerId),
         }),
       });
@@ -160,6 +169,15 @@ const ArtistsTable: React.FC = () => {
       title: "Availability",
       dataIndex: "availability",
       key: "availability",
+      render: (availability: string) => {
+        const [startDate, endDate] = availability.split(" - ");
+        return (
+          <span>
+            {dayjs(startDate).format("MMM D, YYYY")} -{" "}
+            {dayjs(endDate).format("MMM D, YYYY")}
+          </span>
+        );
+      },
     },
     {
       title: "Social Media",
@@ -265,10 +283,18 @@ const ArtistsTable: React.FC = () => {
 
           <Form.Item
             name="availability"
-            label="Availability"
-            rules={[{ required: true, message: "Please input availability!" }]}
+            label="Availability Period"
+            rules={[
+              { required: true, message: "Please select availability period!" },
+            ]}
           >
-            <Input />
+            <RangePicker
+              style={{ width: "100%" }}
+              format="YYYY-MM-DD"
+              disabledDate={(current) => {
+                return current && current < dayjs().startOf("day");
+              }}
+            />
           </Form.Item>
 
           <Form.Item
