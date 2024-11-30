@@ -1,13 +1,12 @@
 import { Layout, Menu, Button, Dropdown } from "antd";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  DashboardOutlined,
   UserOutlined,
-  SettingOutlined,
   LogoutOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 
 const { Header, Sider, Content } = Layout;
@@ -19,6 +18,7 @@ interface AdminLayoutProps {
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Get admin data from localStorage
   const adminData = JSON.parse(localStorage.getItem("adminData") || "{}");
@@ -26,6 +26,10 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const handleLogout = () => {
     localStorage.removeItem("adminData");
     navigate("/admin/login");
+  };
+
+  const handleMenuClick = ({ key }: { key: string }) => {
+    navigate(key);
   };
 
   const userMenuItems = [
@@ -62,22 +66,13 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          selectedKeys={[location.pathname]}
+          onClick={handleMenuClick}
           items={[
             {
-              key: "1",
-              icon: <DashboardOutlined />,
-              label: "Dashboard",
-            },
-            {
-              key: "2",
-              icon: <UserOutlined />,
-              label: "Users",
-            },
-            {
-              key: "3",
-              icon: <SettingOutlined />,
-              label: "Settings",
+              key: "/admin/staff",
+              icon: <TeamOutlined />,
+              label: "Staff",
             },
           ]}
         />

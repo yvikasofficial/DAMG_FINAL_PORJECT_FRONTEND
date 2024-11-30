@@ -5,6 +5,7 @@ import AdminLogin from "./components/AdminLogin";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 import AdminLayout from "./components/admin/AdminLayout";
+import StaffTable from "./components/admin/StaffTable";
 
 const App: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ const App: React.FC = () => {
                     element={<div>Admin Dashboard Content</div>}
                   />
                   <Route path="/users" element={<div>Users Management</div>} />
+                  <Route path="/staff" element={<StaffTable />} />
                   <Route path="/settings" element={<div>Admin Settings</div>} />
                 </Routes>
               </AdminLayout>
