@@ -4,6 +4,7 @@ import Register from "./components/Register";
 import AdminLogin from "./components/AdminLogin";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
+import AdminLayout from "./components/admin/AdminLayout";
 
 const App: React.FC = () => {
   return (
@@ -13,10 +14,19 @@ const App: React.FC = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route
-          path="/admin"
+          path="/admin/*"
           element={
             <AdminRoute>
-              <div>Admin Dashboard</div>
+              <AdminLayout>
+                <Routes>
+                  <Route
+                    path="/"
+                    element={<div>Admin Dashboard Content</div>}
+                  />
+                  <Route path="/users" element={<div>Users Management</div>} />
+                  <Route path="/settings" element={<div>Admin Settings</div>} />
+                </Routes>
+              </AdminLayout>
             </AdminRoute>
           }
         />
