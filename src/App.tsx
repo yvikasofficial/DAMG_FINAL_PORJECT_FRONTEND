@@ -8,6 +8,7 @@ import AdminLayout from "./components/admin/AdminLayout";
 import StaffTable from "./components/admin/StaffTable";
 import SponsorshipTable from "./components/admin/SponsorshipTable";
 import StreamingTable from "./components/admin/StreamingTable";
+import ArtistsTable from "./components/admin/ArtistsTable";
 
 const App: React.FC = () => {
   return (
@@ -30,6 +31,7 @@ const App: React.FC = () => {
                   <Route path="/staff" element={<StaffTable />} />
                   <Route path="/sponsorships" element={<SponsorshipTable />} />
                   <Route path="/streaming" element={<StreamingTable />} />
+                  <Route path="/artists" element={<ArtistsTable />} />
                   <Route path="/settings" element={<div>Admin Settings</div>} />
                 </Routes>
               </AdminLayout>

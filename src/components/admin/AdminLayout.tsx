@@ -86,6 +86,11 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               icon: <VideoCameraOutlined />,
               label: "Streaming",
             },
+            {
+              key: "/admin/artists",
+              icon: <UserOutlined />,
+              label: "Artists",
+            },
           ]}
         />
       </Sider>
