@@ -216,7 +216,18 @@ const ConcertsPage: React.FC = () => {
                   </div>
 
                   <div className="mt-4">
-                    <Text type="secondary">{concert.description}</Text>
+                    <Text
+                      type="secondary"
+                      ellipsis={{ expanded: false }}
+                      style={{
+                        WebkitLineClamp: 1,
+                        display: "-webkit-box",
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {concert.description}
+                    </Text>
                   </div>
                 </div>
               </Card>

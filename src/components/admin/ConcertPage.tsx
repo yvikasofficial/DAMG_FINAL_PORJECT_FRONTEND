@@ -29,7 +29,7 @@ import dayjs from "dayjs";
 const { Title, Text } = Typography;
 
 interface Concert {
-  id: number;
+  concertId: number;
   name: string;
   date: string;
   time: string;
@@ -125,24 +125,29 @@ const ConcertPage: React.FC = () => {
       <Spin spinning={loading}>
         {concert && (
           <>
-            <Card
-              className="mb-4"
-              cover={
-                <div style={{ height: "300px", overflow: "hidden" }}>
-                  <img
-                    alt={concert.name}
-                    src="/concert.jpg"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      objectPosition: "center",
-                    }}
-                  />
-                </div>
-              }
-            >
-              <Row justify="space-between" align="middle">
+            <Card className="mb-4">
+              <div
+                style={{
+                  height: "300px",
+                  overflow: "hidden",
+                  marginTop: "-24px",
+                  marginLeft: "-24px",
+                  marginRight: "-24px",
+                }}
+              >
+                <img
+                  alt={concert.name}
+                  src="/concert.jpg"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    objectPosition: "center",
+                  }}
+                />
+              </div>
+
+              <Row justify="space-between" align="middle" className="mt-4">
                 <Col>
                   <Title level={2} className="mb-2">
                     {concert.name}
@@ -237,33 +242,23 @@ const ConcertPage: React.FC = () => {
                 >
                   {concert.ticketSalesLimit}
                 </Descriptions.Item>
-                {concert.streaming && (
-                  <Descriptions.Item
-                    label={
-                      <>
-                        <VideoCameraOutlined className="mr-2" />
-                        Streaming Platform
-                      </>
-                    }
-                  >
-                    <a
-                      href={concert.streaming.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {concert.streaming.name}
-                    </a>
-                  </Descriptions.Item>
-                )}
               </Descriptions>
 
               <Divider />
 
-              <div className="mt-6">
+              <div>
                 <Title level={4}>Description</Title>
-                <Card className="mt-4 bg-gray-50">
-                  <Text>{concert.description}</Text>
-                </Card>
+                <Text
+                  ellipsis={{ expanded: true, symbol: "more" }}
+                  style={{
+                    WebkitLineClamp: 1,
+                    display: "-webkit-box",
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                  }}
+                >
+                  {concert.description}
+                </Text>
               </div>
             </Card>
           </>
