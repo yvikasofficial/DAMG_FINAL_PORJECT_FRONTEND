@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-  Table,
   Button,
   Modal,
   Form,
@@ -9,6 +8,9 @@ import {
   message,
   Popconfirm,
   DatePicker,
+  Card,
+  Row,
+  Col,
 } from "antd";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
@@ -149,75 +151,6 @@ const ArtistsTable: React.FC = () => {
     }
   };
 
-  const columns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Genre",
-      dataIndex: "genre",
-      key: "genre",
-    },
-    {
-      title: "Contact Info",
-      dataIndex: "contactInfo",
-      key: "contactInfo",
-    },
-    {
-      title: "Availability",
-      dataIndex: "availability",
-      key: "availability",
-      render: (availability: string) => {
-        const [startDate, endDate] = availability.split(" - ");
-        return (
-          <span>
-            {dayjs(startDate).format("MMM D, YYYY")} -{" "}
-            {dayjs(endDate).format("MMM D, YYYY")}
-          </span>
-        );
-      },
-    },
-    {
-      title: "Social Media",
-      dataIndex: "socialMediaLink",
-      key: "socialMediaLink",
-      render: (link: string) => (
-        <a href={link} target="_blank" rel="noopener noreferrer">
-          {link}
-        </a>
-      ),
-    },
-    {
-      title: "Manager",
-      dataIndex: "manager",
-      key: "manager",
-      render: (manager: Manager) => (
-        <span>
-          {manager.name} ({manager.role})
-        </span>
-      ),
-    },
-    {
-      title: "Actions",
-      key: "actions",
-      render: (_: any, record: Artist) => (
-        <div className="space-x-2">
-          <Popconfirm
-            title="Delete artist"
-            description="Are you sure you want to delete this artist?"
-            onConfirm={() => handleDelete(record.artistId)}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button icon={<DeleteOutlined />} danger type="text" />
-          </Popconfirm>
-        </div>
-      ),
-    },
-  ];
-
   return (
     <div>
       <div className="mb-4 flex justify-between items-center">
@@ -231,12 +164,67 @@ const ArtistsTable: React.FC = () => {
         </Button>
       </div>
 
-      <Table
-        columns={columns}
-        dataSource={artists}
-        loading={loading}
-        rowKey="artistId"
-      />
+      <div className={loading ? "opacity-50" : ""}>
+        <Row gutter={[16, 16]}>
+          {artists.map((artist) => (
+            <Col xs={24} sm={12} md={8} lg={6} key={artist.artistId}>
+              <Card
+                cover={<img alt={artist.name} src="/artist.jpg" />}
+                actions={[
+                  <Popconfirm
+                    key="delete"
+                    title="Delete artist"
+                    description="Are you sure you want to delete this artist?"
+                    onConfirm={() => handleDelete(artist.artistId)}
+                    okText="Yes"
+                    cancelText="No"
+                  >
+                    <DeleteOutlined key="delete" />
+                  </Popconfirm>,
+                ]}
+              >
+                <Card.Meta
+                  title={artist.name}
+                  description={
+                    <>
+                      <p>
+                        <strong>Genre:</strong> {artist.genre}
+                      </p>
+                      <p>
+                        <strong>Contact:</strong> {artist.contactInfo}
+                      </p>
+                      <p>
+                        <strong>Availability:</strong>{" "}
+                        {dayjs(artist.availability.split(" - ")[0]).format(
+                          "MMM D, YYYY"
+                        )}{" "}
+                        -{" "}
+                        {dayjs(artist.availability.split(" - ")[1]).format(
+                          "MMM D, YYYY"
+                        )}
+                      </p>
+                      <p>
+                        <strong>Social Media:</strong>{" "}
+                        <a
+                          href={artist.socialMediaLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Link
+                        </a>
+                      </p>
+                      <p>
+                        <strong>Manager:</strong> {artist.manager.name} (
+                        {artist.manager.role})
+                      </p>
+                    </>
+                  }
+                />
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </div>
 
       <Modal
         title="Add Artist"
