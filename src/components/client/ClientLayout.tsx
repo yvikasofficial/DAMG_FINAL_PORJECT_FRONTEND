@@ -43,7 +43,12 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
 
   const handleUserMenuClick = ({ key }: { key: string }) => {
     if (key === "logout") {
-      // Handle logout logic here
+      // Clear all auth data from localStorage
+      localStorage.clear();
+      // Or if you want to clear specific items:
+      // localStorage.removeItem('token');
+      // localStorage.removeItem('user');
+
       navigate("/login");
     }
   };
