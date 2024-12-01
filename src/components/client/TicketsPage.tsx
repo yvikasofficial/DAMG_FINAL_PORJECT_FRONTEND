@@ -30,14 +30,24 @@ const TicketsPage: React.FC = () => {
   const fetchTickets = async () => {
     try {
       const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+
+      if (!userData.attendee) {
+        throw new Error("User data not found");
+      }
+
       const response = await fetch(
-        `http://localhost:3000/api/tickets/attendee/${userData.id}`
+        `http://localhost:3000/api/tickets/attendee/${userData.attendee.id}`
       );
+
       if (!response.ok) throw new Error("Failed to fetch tickets");
       const data = await response.json();
       setTickets(data);
     } catch (error) {
-      message.error("Failed to load tickets");
+      if (error instanceof Error) {
+        message.error(error.message);
+      } else {
+        message.error("Failed to load tickets");
+      }
     } finally {
       setLoading(false);
     }
