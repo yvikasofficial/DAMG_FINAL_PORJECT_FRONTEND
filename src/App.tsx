@@ -58,13 +58,20 @@ const App: React.FC = () => {
           }
         />
         <Route
-          path="/"
+          path="/*"
           element={
             <PrivateRoute>
               <ClientLayout>
                 <Routes>
-                  {/* <Route index element={<Navigate to="/concerts" replace />} /> */}
-                  <Route path="/concerts" element={<div>Concerts Page</div>} />
+                  <Route index element={<Navigate to="concerts" replace />} />
+                  <Route
+                    path="concerts"
+                    element={<ConcertsPage isClientView={true} />}
+                  />
+                  <Route
+                    path="concerts/:id"
+                    element={<ConcertPage isClientView={true} />}
+                  />
                 </Routes>
               </ClientLayout>
             </PrivateRoute>

@@ -70,7 +70,11 @@ const getStatusColor = (status: string) => {
   }
 };
 
-const ConcertPage: React.FC = () => {
+interface ConcertPageProps {
+  isClientView?: boolean;
+}
+
+const ConcertPage: React.FC<ConcertPageProps> = ({ isClientView = false }) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [concert, setConcert] = useState<Concert | null>(null);
@@ -87,14 +91,14 @@ const ConcertPage: React.FC = () => {
         setConcert(data);
       } catch (error) {
         message.error("Failed to fetch concert details");
-        navigate("/admin/concerts");
+        navigate(isClientView ? "/concerts" : "/admin/concerts");
       } finally {
         setLoading(false);
       }
     };
 
     fetchConcert();
-  }, [id, navigate]);
+  }, [id, navigate, isClientView]);
 
   const handleDelete = async () => {
     try {
@@ -116,7 +120,9 @@ const ConcertPage: React.FC = () => {
       <Space className="mb-4">
         <Button
           icon={<RollbackOutlined />}
-          onClick={() => navigate("/admin/concerts")}
+          onClick={() =>
+            navigate(isClientView ? "/concerts" : "/admin/concerts")
+          }
         >
           Back to Concerts
         </Button>
@@ -158,21 +164,35 @@ const ConcertPage: React.FC = () => {
                 </Col>
                 <Col>
                   <Space>
-                    <Button
-                      type="primary"
-                      icon={<EditOutlined />}
-                      onClick={() => navigate(`/admin/concerts/edit/${id}`)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      danger
-                      icon={<DeleteOutlined />}
-                      onClick={handleDelete}
-                      disabled={concert.status === "Completed"}
-                    >
-                      Delete
-                    </Button>
+                    {isClientView ? (
+                      <Button
+                        type="primary"
+                        size="large"
+                        onClick={() => {
+                          message.info("Booking functionality coming soon!");
+                        }}
+                      >
+                        Book Tickets
+                      </Button>
+                    ) : (
+                      <>
+                        <Button
+                          type="primary"
+                          icon={<EditOutlined />}
+                          onClick={() => navigate(`/admin/concerts/edit/${id}`)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          danger
+                          icon={<DeleteOutlined />}
+                          onClick={handleDelete}
+                          disabled={concert.status === "Completed"}
+                        >
+                          Delete
+                        </Button>
+                      </>
+                    )}
                   </Space>
                 </Col>
               </Row>
@@ -222,16 +242,18 @@ const ConcertPage: React.FC = () => {
                 >
                   {concert.artist.name} - {concert.artist.genre}
                 </Descriptions.Item>
-                <Descriptions.Item
-                  label={
-                    <>
-                      <TeamOutlined className="mr-2" />
-                      Manager
-                    </>
-                  }
-                >
-                  {concert.manager.name}
-                </Descriptions.Item>
+                {!isClientView && (
+                  <Descriptions.Item
+                    label={
+                      <>
+                        <TeamOutlined className="mr-2" />
+                        Manager
+                      </>
+                    }
+                  >
+                    {concert.manager.name}
+                  </Descriptions.Item>
+                )}
                 <Descriptions.Item
                   label={
                     <>
@@ -248,17 +270,7 @@ const ConcertPage: React.FC = () => {
 
               <div>
                 <Title level={4}>Description</Title>
-                <Text
-                  ellipsis={{ expanded: true, symbol: "more" }}
-                  style={{
-                    WebkitLineClamp: 1,
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                  }}
-                >
-                  {concert.description}
-                </Text>
+                <Text>{concert.description}</Text>
               </div>
             </Card>
           </>

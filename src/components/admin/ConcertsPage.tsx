@@ -67,7 +67,13 @@ const getStatusColor = (status: string) => {
   }
 };
 
-const ConcertsPage: React.FC = () => {
+interface ConcertsPageProps {
+  isClientView?: boolean;
+}
+
+const ConcertsPage: React.FC<ConcertsPageProps> = ({
+  isClientView = false,
+}) => {
   const [concerts, setConcerts] = useState<Concert[]>([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -113,14 +119,18 @@ const ConcertsPage: React.FC = () => {
   return (
     <div className="p-6">
       <div className="mb-6 flex justify-between items-center">
-        <Title level={2}>Concerts</Title>
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => navigate("/admin/concerts/create")}
-        >
-          Add Concert
-        </Button>
+        <Title level={2}>
+          {isClientView ? "Available Concerts" : "Concerts"}
+        </Title>
+        {!isClientView && (
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => navigate("/admin/concerts/create")}
+          >
+            Add Concert
+          </Button>
+        )}
       </div>
 
       <Spin spinning={loading} tip="Loading concerts...">
@@ -130,7 +140,13 @@ const ConcertsPage: React.FC = () => {
               <Card
                 hoverable
                 className="h-full"
-                onClick={() => navigate(`/admin/concerts/${concert.id}`)}
+                onClick={() =>
+                  navigate(
+                    isClientView
+                      ? `/concerts/${concert.id}`
+                      : `/admin/concerts/${concert.id}`
+                  )
+                }
                 cover={
                   <img
                     alt={concert.name}
@@ -138,23 +154,39 @@ const ConcertsPage: React.FC = () => {
                     className="h-48 object-cover"
                   />
                 }
-                actions={[
-                  <Popconfirm
-                    title="Delete concert"
-                    description="Are you sure you want to delete this concert?"
-                    onConfirm={() => handleDelete(concert.id)}
-                    okText="Yes"
-                    cancelText="No"
-                    disabled={concert.status === "Completed"}
-                  >
-                    <Button
-                      icon={<DeleteOutlined />}
-                      danger
-                      type="text"
-                      disabled={concert.status === "Completed"}
-                    />
-                  </Popconfirm>,
-                ]}
+                actions={
+                  isClientView
+                    ? [
+                        <Button
+                          type="primary"
+                          key="book"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            message.info("Booking functionality coming soon!");
+                          }}
+                        >
+                          Book Now
+                        </Button>,
+                      ]
+                    : [
+                        <Popconfirm
+                          key="delete"
+                          title="Delete concert"
+                          description="Are you sure you want to delete this concert?"
+                          onConfirm={() => handleDelete(concert.id)}
+                          okText="Yes"
+                          cancelText="No"
+                          disabled={concert.status === "Completed"}
+                        >
+                          <Button
+                            icon={<DeleteOutlined />}
+                            danger
+                            type="text"
+                            disabled={concert.status === "Completed"}
+                          />
+                        </Popconfirm>,
+                      ]
+                }
               >
                 <div className="mb-4">
                   <Tag color={getStatusColor(concert.status)} className="mb-2">
