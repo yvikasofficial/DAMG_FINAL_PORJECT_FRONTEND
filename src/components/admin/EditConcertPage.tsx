@@ -50,21 +50,22 @@ interface Concert {
   status: string;
   description: string;
   venue: {
-    venueId: number;
+    id: number;
     name: string;
   };
   artist: {
-    artistId: number;
+    id: number;
     name: string;
   };
   manager: {
-    managerId: number;
+    id: number;
     name: string;
   };
   streaming?: {
-    platformId: number;
+    id: number;
     name: string;
   };
+  price: number;
 }
 
 const CONCERT_STATUS = ["Scheduled", "Completed", "Canceled"];
@@ -121,13 +122,14 @@ const EditConcertPage: React.FC = () => {
           name: concert.name,
           date: dayjs(concert.date),
           time: dayjs(concert.time, "HH:mm"),
-          venueId: concert.venue.venueId,
-          artistId: concert.artist.artistId,
-          managerId: concert.manager.managerId,
+          venueId: concert.venue.id,
+          artistId: concert.artist.id,
+          managerId: concert.manager.id,
           ticketSalesLimit: concert.ticketSalesLimit,
           status: concert.status,
-          streamingId: concert.streaming?.platformId,
+          streamingId: concert.streaming?.id,
           description: concert.description,
+          price: concert.price,
         });
       } catch (error) {
         message.error("Failed to fetch concert data");
@@ -303,6 +305,27 @@ const EditConcertPage: React.FC = () => {
               rules={[{ required: true, message: "Please input description!" }]}
             >
               <TextArea rows={4} />
+            </Form.Item>
+
+            <Form.Item
+              name="price"
+              label="Ticket Price"
+              rules={[
+                { required: true, message: "Please enter the ticket price" },
+                {
+                  type: "number",
+                  min: 0,
+                  message: "Price must be greater than or equal to 0",
+                },
+              ]}
+            >
+              <InputNumber
+                prefix="$"
+                min={0}
+                step={0.01}
+                style={{ width: "100%" }}
+                placeholder="Enter ticket price"
+              />
             </Form.Item>
 
             <Form.Item className="mb-0">

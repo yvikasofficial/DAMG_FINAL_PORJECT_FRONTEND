@@ -47,6 +47,20 @@ interface StaffMember {
   contactInfo: string;
 }
 
+interface ConcertFormData {
+  name: string;
+  date: string;
+  time: string;
+  venueId: number;
+  artistId: number;
+  managerId: number;
+  ticketSalesLimit: number;
+  status: string;
+  streamingId: number | undefined;
+  description: string;
+  price: number;
+}
+
 const CONCERT_STATUS = ["Scheduled", "Completed", "Canceled"];
 
 const CreateConcertPage: React.FC = () => {
@@ -159,6 +173,9 @@ const CreateConcertPage: React.FC = () => {
           layout="vertical"
           onFinish={handleSubmit}
           className="max-w-2xl"
+          initialValues={{
+            price: 0,
+          }}
         >
           <Form.Item
             name="name"
@@ -283,6 +300,27 @@ const CreateConcertPage: React.FC = () => {
             rules={[{ required: true, message: "Please input description!" }]}
           >
             <TextArea rows={4} />
+          </Form.Item>
+
+          <Form.Item
+            name="price"
+            label="Ticket Price"
+            rules={[
+              { required: true, message: "Please enter the ticket price" },
+              {
+                type: "number",
+                min: 0,
+                message: "Price must be greater than or equal to 0",
+              },
+            ]}
+          >
+            <InputNumber
+              prefix="$"
+              min={0}
+              step={0.01}
+              style={{ width: "100%" }}
+              placeholder="Enter ticket price"
+            />
           </Form.Item>
 
           <Form.Item className="mb-0">

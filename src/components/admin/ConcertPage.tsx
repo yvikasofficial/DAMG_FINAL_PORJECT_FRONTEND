@@ -22,6 +22,7 @@ import {
   RollbackOutlined,
   EditOutlined,
   DeleteOutlined,
+  DollarOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import Feedback from "../Feedback";
@@ -368,6 +369,16 @@ const ConcertPage: React.FC<ConcertPageProps> = ({ isClientView = false }) => {
                   }
                 >
                   {concert.ticketSalesLimit}
+                </Descriptions.Item>
+                <Descriptions.Item
+                  label={
+                    <>
+                      <DollarOutlined className="mr-2" />
+                      Price
+                    </>
+                  }
+                >
+                  ${concert.price.toFixed(2)}
                 </Descriptions.Item>
               </Descriptions>
 

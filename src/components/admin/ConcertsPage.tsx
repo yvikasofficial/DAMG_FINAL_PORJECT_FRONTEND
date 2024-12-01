@@ -52,6 +52,7 @@ interface Concert {
     name: string;
     url: string;
   };
+  price: number;
 }
 
 const getStatusColor = (status: string) => {
@@ -195,6 +196,9 @@ const ConcertsPage: React.FC<ConcertsPageProps> = ({
                   <Title level={4} className="mb-0">
                     {concert.name}
                   </Title>
+                  <Text className="text-lg font-semibold text-primary">
+                    ${concert.price.toFixed(2)}
+                  </Text>
                 </div>
 
                 <div className="space-y-3">
