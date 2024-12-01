@@ -62,22 +62,20 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
         <div
           className="p-4 flex justify-center"
           style={{
-            height: "64px",
+            height: "100px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
           }}
         >
-          <h1
+          <img
+            src="/logo.png"
+            alt="MKYKV"
             style={{
-              margin: 0,
-              fontSize: collapsed ? "14px" : "24px",
-              fontWeight: "bold",
-              transition: "font-size 0.3s",
+              height: collapsed ? "32px" : "100px",
+              transition: "height 0.3s",
             }}
-          >
-            MKYKV
-          </h1>
+          />
         </div>
         <Menu
           mode="inline"
