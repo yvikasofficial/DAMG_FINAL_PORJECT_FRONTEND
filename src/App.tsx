@@ -15,6 +15,7 @@ import CreateConcertPage from "./components/admin/CreateConcertPage";
 import DashboardPage from "./components/admin/DashboardPage";
 import ConcertPage from "./components/admin/ConcertPage";
 import EditConcertPage from "./components/admin/EditConcertPage";
+import ClientLayout from "./components/client/ClientLayout";
 
 const App: React.FC = () => {
   return (
@@ -60,7 +61,12 @@ const App: React.FC = () => {
           path="/"
           element={
             <PrivateRoute>
-              <div>Protected Home Page</div>
+              <ClientLayout>
+                <Routes>
+                  {/* <Route index element={<Navigate to="/concerts" replace />} /> */}
+                  <Route path="/concerts" element={<div>Concerts Page</div>} />
+                </Routes>
+              </ClientLayout>
             </PrivateRoute>
           }
         />
