@@ -8,6 +8,7 @@ import {
   Popconfirm,
   Tag,
   Typography,
+  Spin,
 } from "antd";
 import {
   PlusOutlined,
@@ -122,104 +123,106 @@ const ConcertsPage: React.FC = () => {
         </Button>
       </div>
 
-      <Row gutter={[16, 16]}>
-        {concerts.map((concert) => (
-          <Col xs={24} sm={12} lg={8} key={concert.concertId}>
-            <Card
-              hoverable
-              className="h-full"
-              cover={
-                <img
-                  alt={concert.name}
-                  src="/concert.jpg"
-                  className="h-48 object-cover"
-                />
-              }
-              actions={[
-                <Popconfirm
-                  title="Delete concert"
-                  description="Are you sure you want to delete this concert?"
-                  onConfirm={() => handleDelete(concert.concertId)}
-                  okText="Yes"
-                  cancelText="No"
-                  disabled={concert.status === "Completed"}
-                >
-                  <Button
-                    icon={<DeleteOutlined />}
-                    danger
-                    type="text"
-                    disabled={concert.status === "Completed"}
+      <Spin spinning={loading} tip="Loading concerts...">
+        <Row gutter={[16, 16]}>
+          {concerts.map((concert) => (
+            <Col xs={24} sm={12} lg={8} key={concert.concertId}>
+              <Card
+                hoverable
+                className="h-full"
+                cover={
+                  <img
+                    alt={concert.name}
+                    src="/concert.jpg"
+                    className="h-48 object-cover"
                   />
-                </Popconfirm>,
-              ]}
-            >
-              <div className="mb-4">
-                <Tag color={getStatusColor(concert.status)} className="mb-2">
-                  {concert.status}
-                </Tag>
-                <Title level={4} className="mb-0">
-                  {concert.name}
-                </Title>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center">
-                  <CalendarOutlined className="mr-2" />
-                  <Text>{dayjs(concert.date).format("MMMM D, YYYY")}</Text>
+                }
+                actions={[
+                  <Popconfirm
+                    title="Delete concert"
+                    description="Are you sure you want to delete this concert?"
+                    onConfirm={() => handleDelete(concert.concertId)}
+                    okText="Yes"
+                    cancelText="No"
+                    disabled={concert.status === "Completed"}
+                  >
+                    <Button
+                      icon={<DeleteOutlined />}
+                      danger
+                      type="text"
+                      disabled={concert.status === "Completed"}
+                    />
+                  </Popconfirm>,
+                ]}
+              >
+                <div className="mb-4">
+                  <Tag color={getStatusColor(concert.status)} className="mb-2">
+                    {concert.status}
+                  </Tag>
+                  <Title level={4} className="mb-0">
+                    {concert.name}
+                  </Title>
                 </div>
 
-                <div className="flex items-center">
-                  <ClockCircleOutlined className="mr-2" />
-                  <Text>{concert.time}</Text>
-                </div>
-
-                <div className="flex items-center">
-                  <EnvironmentOutlined className="mr-2" />
-                  <Text>
-                    {concert.venue.name} ({concert.venue.location})
-                  </Text>
-                </div>
-
-                <div className="flex items-center">
-                  <UserOutlined className="mr-2" />
-                  <Text>
-                    {concert.artist.name} - {concert.artist.genre}
-                  </Text>
-                </div>
-
-                <div className="flex items-center">
-                  <TeamOutlined className="mr-2" />
-                  <Text>{concert.manager.name}</Text>
-                </div>
-
-                {concert.streaming && (
+                <div className="space-y-3">
                   <div className="flex items-center">
-                    <VideoCameraOutlined className="mr-2" />
-                    <a
-                      href={concert.streaming.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {concert.streaming.name}
-                    </a>
+                    <CalendarOutlined className="mr-2" />
+                    <Text>{dayjs(concert.date).format("MMMM D, YYYY")}</Text>
                   </div>
-                )}
 
-                <div className="flex items-center">
-                  <TeamOutlined className="mr-2" />
-                  <Text>
-                    {concert.ticketSalesLimit.toLocaleString()} tickets
-                  </Text>
-                </div>
+                  <div className="flex items-center">
+                    <ClockCircleOutlined className="mr-2" />
+                    <Text>{concert.time}</Text>
+                  </div>
 
-                <div className="mt-4">
-                  <Text type="secondary">{concert.description}</Text>
+                  <div className="flex items-center">
+                    <EnvironmentOutlined className="mr-2" />
+                    <Text>
+                      {concert.venue.name} ({concert.venue.location})
+                    </Text>
+                  </div>
+
+                  <div className="flex items-center">
+                    <UserOutlined className="mr-2" />
+                    <Text>
+                      {concert.artist.name} - {concert.artist.genre}
+                    </Text>
+                  </div>
+
+                  <div className="flex items-center">
+                    <TeamOutlined className="mr-2" />
+                    <Text>{concert.manager.name}</Text>
+                  </div>
+
+                  {concert.streaming && (
+                    <div className="flex items-center">
+                      <VideoCameraOutlined className="mr-2" />
+                      <a
+                        href={concert.streaming.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {concert.streaming.name}
+                      </a>
+                    </div>
+                  )}
+
+                  <div className="flex items-center">
+                    <TeamOutlined className="mr-2" />
+                    <Text>
+                      {concert.ticketSalesLimit.toLocaleString()} tickets
+                    </Text>
+                  </div>
+
+                  <div className="mt-4">
+                    <Text type="secondary">{concert.description}</Text>
+                  </div>
                 </div>
-              </div>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Spin>
     </div>
   );
 };
