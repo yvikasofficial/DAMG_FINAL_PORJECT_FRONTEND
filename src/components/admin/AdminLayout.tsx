@@ -10,6 +10,7 @@ import {
   DollarOutlined,
   VideoCameraOutlined,
   BankOutlined,
+  CalendarOutlined,
 } from "@ant-design/icons";
 
 const { Header, Sider, Content } = Layout;
@@ -96,6 +97,11 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               key: "/admin/venues",
               icon: <BankOutlined />,
               label: "Venues",
+            },
+            {
+              key: "/admin/concerts",
+              icon: <CalendarOutlined />,
+              label: "Concerts",
             },
           ]}
         />

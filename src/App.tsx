@@ -10,6 +10,8 @@ import SponsorshipTable from "./components/admin/SponsorshipTable";
 import StreamingTable from "./components/admin/StreamingTable";
 import ArtistsTable from "./components/admin/ArtistsTable";
 import VenuesTable from "./components/admin/VenuesTable";
+import ConcertsPage from "./components/admin/ConcertsPage";
+import CreateConcertPage from "./components/admin/CreateConcertPage";
 
 const App: React.FC = () => {
   return (
@@ -34,6 +36,11 @@ const App: React.FC = () => {
                   <Route path="/streaming" element={<StreamingTable />} />
                   <Route path="/artists" element={<ArtistsTable />} />
                   <Route path="/venues" element={<VenuesTable />} />
+                  <Route path="/concerts" element={<ConcertsPage />} />
+                  <Route
+                    path="/concerts/create"
+                    element={<CreateConcertPage />}
+                  />
                   <Route path="/settings" element={<div>Admin Settings</div>} />
                 </Routes>
               </AdminLayout>
