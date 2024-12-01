@@ -32,7 +32,7 @@ interface DashboardStats {
   totalStaff: number;
   totalStreamingPlatforms: number;
   recentConcerts: Array<{
-    concertId: number;
+    id: number;
     name: string;
     date: string;
     status: string;
@@ -463,7 +463,7 @@ const DashboardPage: React.FC = () => {
                 dataSource={stats.recentConcerts}
                 columns={recentConcertsColumns}
                 pagination={false}
-                rowKey="concertId"
+                rowKey="id"
               />
             </Card>
           </>

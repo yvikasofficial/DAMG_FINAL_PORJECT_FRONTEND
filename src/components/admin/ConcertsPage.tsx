@@ -26,7 +26,7 @@ import { useNavigate } from "react-router-dom";
 const { Title, Text } = Typography;
 
 interface Concert {
-  concertId: number;
+  id: number;
   name: string;
   date: string;
   time: string;
@@ -126,10 +126,11 @@ const ConcertsPage: React.FC = () => {
       <Spin spinning={loading} tip="Loading concerts...">
         <Row gutter={[16, 16]}>
           {concerts.map((concert) => (
-            <Col xs={24} sm={12} lg={8} key={concert.concertId}>
+            <Col xs={24} sm={12} lg={8} key={concert.id}>
               <Card
                 hoverable
                 className="h-full"
+                onClick={() => navigate(`/admin/concerts/${concert.id}`)}
                 cover={
                   <img
                     alt={concert.name}
@@ -141,7 +142,7 @@ const ConcertsPage: React.FC = () => {
                   <Popconfirm
                     title="Delete concert"
                     description="Are you sure you want to delete this concert?"
-                    onConfirm={() => handleDelete(concert.concertId)}
+                    onConfirm={() => handleDelete(concert.id)}
                     okText="Yes"
                     cancelText="No"
                     disabled={concert.status === "Completed"}
