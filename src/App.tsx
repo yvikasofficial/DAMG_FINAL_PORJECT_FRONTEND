@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import AdminLogin from "./components/AdminLogin";
@@ -28,8 +28,14 @@ const App: React.FC = () => {
               <AdminLayout>
                 <Routes>
                   <Route
-                    path="/"
-                    element={<div>Admin Dashboard Content</div>}
+                    index
+                    element={<Navigate to="/admin/dashboard" replace />}
+                  />
+                  <Route path="dashboard" element={<DashboardPage />} />
+                  <Route path="concerts" element={<ConcertsPage />} />
+                  <Route
+                    path="concerts/create"
+                    element={<CreateConcertPage />}
                   />
                   <Route path="/users" element={<div>Users Management</div>} />
                   <Route path="/staff" element={<StaffTable />} />
@@ -37,13 +43,7 @@ const App: React.FC = () => {
                   <Route path="/streaming" element={<StreamingTable />} />
                   <Route path="/artists" element={<ArtistsTable />} />
                   <Route path="/venues" element={<VenuesTable />} />
-                  <Route path="/concerts" element={<ConcertsPage />} />
-                  <Route
-                    path="/concerts/create"
-                    element={<CreateConcertPage />}
-                  />
                   <Route path="/settings" element={<div>Admin Settings</div>} />
-                  <Route path="/dashboard" element={<DashboardPage />} />
                 </Routes>
               </AdminLayout>
             </AdminRoute>

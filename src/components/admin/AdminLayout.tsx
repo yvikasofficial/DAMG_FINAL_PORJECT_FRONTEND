@@ -62,6 +62,44 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     },
   ];
 
+  const menuItems = [
+    {
+      key: "/admin/dashboard",
+      icon: <DashboardOutlined />,
+      label: "Dashboard",
+    },
+    {
+      key: "/admin/concerts",
+      icon: <CalendarOutlined />,
+      label: "Concerts",
+    },
+    {
+      key: "/admin/staff",
+      icon: <TeamOutlined />,
+      label: "Staff",
+    },
+    {
+      key: "/admin/sponsorships",
+      icon: <DollarOutlined />,
+      label: "Sponsorships",
+    },
+    {
+      key: "/admin/streaming",
+      icon: <VideoCameraOutlined />,
+      label: "Streaming",
+    },
+    {
+      key: "/admin/artists",
+      icon: <UserOutlined />,
+      label: "Artists",
+    },
+    {
+      key: "/admin/venues",
+      icon: <BankOutlined />,
+      label: "Venues",
+    },
+  ];
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -73,43 +111,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           mode="inline"
           selectedKeys={[location.pathname]}
           onClick={handleMenuClick}
-          items={[
-            {
-              key: "/admin/staff",
-              icon: <TeamOutlined />,
-              label: "Staff",
-            },
-            {
-              key: "/admin/sponsorships",
-              icon: <DollarOutlined />,
-              label: "Sponsorships",
-            },
-            {
-              key: "/admin/streaming",
-              icon: <VideoCameraOutlined />,
-              label: "Streaming",
-            },
-            {
-              key: "/admin/artists",
-              icon: <UserOutlined />,
-              label: "Artists",
-            },
-            {
-              key: "/admin/venues",
-              icon: <BankOutlined />,
-              label: "Venues",
-            },
-            {
-              key: "/admin/concerts",
-              icon: <CalendarOutlined />,
-              label: "Concerts",
-            },
-            {
-              key: "/admin/dashboard",
-              icon: <DashboardOutlined />,
-              label: "Dashboard",
-            },
-          ]}
+          items={menuItems}
         />
       </Sider>
       <Layout>

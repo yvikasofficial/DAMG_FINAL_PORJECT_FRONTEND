@@ -1,21 +1,10 @@
 import { useState, useEffect } from "react";
-import {
-  Card,
-  Row,
-  Col,
-  Statistic,
-  Spin,
-  Typography,
-  Table,
-  Tag,
-  Progress,
-} from "antd";
+import { Card, Row, Col, Statistic, Spin, Typography, Table, Tag } from "antd";
 import {
   UserOutlined,
   TeamOutlined,
   CalendarOutlined,
   BankOutlined,
-  DollarOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import {
@@ -60,6 +49,47 @@ interface DashboardStats {
 }
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
+
+const CARD_STYLES = {
+  totalConcerts: {
+    background: "linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)",
+    icon: { color: "rgba(255, 255, 255, 0.8)" },
+    text: { color: "#fff" },
+  },
+  upcomingConcerts: {
+    background: "linear-gradient(135deg, #4158D0 0%, #C850C0 100%)",
+    icon: { color: "rgba(255, 255, 255, 0.8)" },
+    text: { color: "#fff" },
+  },
+  totalArtists: {
+    background: "linear-gradient(135deg, #43E97B 0%, #38F9D7 100%)",
+    icon: { color: "rgba(255, 255, 255, 0.8)" },
+    text: { color: "#fff" },
+  },
+  totalVenues: {
+    background: "linear-gradient(135deg, #FA8BFF 0%, #2BD2FF 100%)",
+    icon: { color: "rgba(255, 255, 255, 0.8)" },
+    text: { color: "#fff" },
+  },
+  totalStaff: {
+    background: "linear-gradient(135deg, #FEC163 0%, #DE4313 100%)",
+    icon: { color: "rgba(255, 255, 255, 0.8)" },
+    text: { color: "#fff" },
+  },
+  streaming: {
+    background: "linear-gradient(135deg, #6B73FF 0%, #000DFF 100%)",
+    icon: { color: "rgba(255, 255, 255, 0.8)" },
+    text: { color: "#fff" },
+  },
+  common: {
+    height: "160px",
+    borderRadius: "12px",
+    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+  } as const,
+};
 
 const DashboardPage: React.FC = () => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -189,57 +219,177 @@ const DashboardPage: React.FC = () => {
           <>
             <Row gutter={[16, 16]} className="mb-6">
               <Col xs={24} sm={12} lg={8} xl={4}>
-                <Card>
+                <Card
+                  style={{
+                    ...CARD_STYLES.totalConcerts,
+                    ...CARD_STYLES.common,
+                  }}
+                  bodyStyle={{
+                    padding: "24px 24px",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
                   <Statistic
-                    title="Total Concerts"
+                    title={
+                      <span style={CARD_STYLES.totalConcerts.text}>
+                        Total Concerts
+                      </span>
+                    }
                     value={stats.totalConcerts}
-                    prefix={<CalendarOutlined />}
+                    prefix={
+                      <CalendarOutlined
+                        style={CARD_STYLES.totalConcerts.icon}
+                      />
+                    }
+                    valueStyle={{
+                      ...CARD_STYLES.totalConcerts.text,
+                      fontSize: "28px",
+                    }}
                   />
                 </Card>
               </Col>
               <Col xs={24} sm={12} lg={8} xl={4}>
-                <Card>
+                <Card
+                  style={{
+                    ...CARD_STYLES.upcomingConcerts,
+                    ...CARD_STYLES.common,
+                  }}
+                  bodyStyle={{
+                    padding: "24px 24px",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
                   <Statistic
-                    title="Upcoming Concerts"
+                    title={
+                      <span style={CARD_STYLES.upcomingConcerts.text}>
+                        Upcoming Concerts
+                      </span>
+                    }
                     value={stats.upcomingConcerts}
-                    prefix={<CalendarOutlined />}
-                    valueStyle={{ color: "#1890ff" }}
+                    prefix={
+                      <CalendarOutlined
+                        style={CARD_STYLES.upcomingConcerts.icon}
+                      />
+                    }
+                    valueStyle={CARD_STYLES.upcomingConcerts.text}
                   />
                 </Card>
               </Col>
               <Col xs={24} sm={12} lg={8} xl={4}>
-                <Card>
+                <Card
+                  style={{
+                    ...CARD_STYLES.totalArtists,
+                    ...CARD_STYLES.common,
+                  }}
+                  bodyStyle={{
+                    padding: "24px 24px",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
                   <Statistic
-                    title="Total Artists"
+                    title={
+                      <span style={CARD_STYLES.totalArtists.text}>
+                        Total Artists
+                      </span>
+                    }
                     value={stats.totalArtists}
-                    prefix={<UserOutlined />}
+                    prefix={
+                      <UserOutlined style={CARD_STYLES.totalArtists.icon} />
+                    }
+                    valueStyle={CARD_STYLES.totalArtists.text}
                   />
                 </Card>
               </Col>
               <Col xs={24} sm={12} lg={8} xl={4}>
-                <Card>
+                <Card
+                  style={{
+                    ...CARD_STYLES.totalVenues,
+                    ...CARD_STYLES.common,
+                  }}
+                  bodyStyle={{
+                    padding: "24px 24px",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
                   <Statistic
-                    title="Total Venues"
+                    title={
+                      <span style={CARD_STYLES.totalVenues.text}>
+                        Total Venues
+                      </span>
+                    }
                     value={stats.totalVenues}
-                    prefix={<BankOutlined />}
+                    prefix={
+                      <BankOutlined style={CARD_STYLES.totalVenues.icon} />
+                    }
+                    valueStyle={CARD_STYLES.totalVenues.text}
                   />
                 </Card>
               </Col>
               <Col xs={24} sm={12} lg={8} xl={4}>
-                <Card>
+                <Card
+                  style={{
+                    ...CARD_STYLES.totalStaff,
+                    ...CARD_STYLES.common,
+                  }}
+                  bodyStyle={{
+                    padding: "24px 24px",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
                   <Statistic
-                    title="Total Staff"
+                    title={
+                      <span style={CARD_STYLES.totalStaff.text}>
+                        Total Staff
+                      </span>
+                    }
                     value={stats.totalStaff}
-                    prefix={<TeamOutlined />}
+                    prefix={
+                      <TeamOutlined style={CARD_STYLES.totalStaff.icon} />
+                    }
+                    valueStyle={CARD_STYLES.totalStaff.text}
                   />
                 </Card>
               </Col>
               <Col xs={24} sm={12} lg={8} xl={4}>
-                <Card>
+                <Card
+                  style={{
+                    ...CARD_STYLES.streaming,
+                    ...CARD_STYLES.common,
+                  }}
+                  bodyStyle={{
+                    padding: "24px 24px",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
                   <Statistic
-                    title="Streaming Platforms"
+                    title={
+                      <span style={CARD_STYLES.streaming.text}>
+                        Streaming Platforms
+                      </span>
+                    }
                     value={stats.totalStreamingPlatforms}
-                    prefix={<VideoCameraOutlined />}
+                    prefix={
+                      <VideoCameraOutlined style={CARD_STYLES.streaming.icon} />
+                    }
+                    valueStyle={CARD_STYLES.streaming.text}
                   />
                 </Card>
               </Col>
