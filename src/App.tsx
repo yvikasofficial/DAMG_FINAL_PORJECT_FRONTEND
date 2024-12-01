@@ -16,6 +16,7 @@ import DashboardPage from "./components/admin/DashboardPage";
 import ConcertPage from "./components/admin/ConcertPage";
 import EditConcertPage from "./components/admin/EditConcertPage";
 import ClientLayout from "./components/client/ClientLayout";
+import TicketsPage from "./components/client/TicketsPage";
 
 const App: React.FC = () => {
   return (
@@ -72,6 +73,7 @@ const App: React.FC = () => {
                     path="concerts/:id"
                     element={<ConcertPage isClientView={true} />}
                   />
+                  <Route path="tickets" element={<TicketsPage />} />
                 </Routes>
               </ClientLayout>
             </PrivateRoute>

@@ -29,7 +29,7 @@ import Feedback from "../Feedback";
 const { Title, Text } = Typography;
 
 interface Concert {
-  concertId: number;
+  id: number;
   name: string;
   date: string;
   time: string;
@@ -55,6 +55,7 @@ interface Concert {
     name: string;
     url: string;
   };
+  price: number;
 }
 
 const getStatusColor = (status: string) => {
@@ -79,7 +80,13 @@ const ConcertPage: React.FC<ConcertPageProps> = ({ isClientView = false }) => {
   const navigate = useNavigate();
   const [concert, setConcert] = useState<Concert | null>(null);
   const [loading, setLoading] = useState(true);
+  const [hasTicket, setHasTicket] = useState(false);
+  const [ticketId, setTicketId] = useState<number | null>(null);
+  const [ticketLoading, setTicketLoading] = useState(false);
 
+  console.log("====================================");
+  console.log(concert);
+  console.log("====================================");
   useEffect(() => {
     const fetchConcert = async () => {
       try {
@@ -100,6 +107,35 @@ const ConcertPage: React.FC<ConcertPageProps> = ({ isClientView = false }) => {
     fetchConcert();
   }, [id, navigate, isClientView]);
 
+  useEffect(() => {
+    const checkTicket = async () => {
+      if (!isClientView) return;
+
+      try {
+        const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+        if (!userData.attendee) return;
+
+        const response = await fetch(
+          `http://localhost:3000/api/tickets/concert/${id}/attendee/${userData.attendee.id}`
+        );
+
+        if (response.ok) {
+          const ticket = await response.json();
+          setHasTicket(true);
+          setTicketId(ticket.id);
+        }
+      } catch (error) {
+        // If ticket not found, that's okay
+        setHasTicket(false);
+        setTicketId(null);
+      }
+    };
+
+    if (concert) {
+      checkTicket();
+    }
+  }, [id, concert, isClientView]);
+
   const handleDelete = async () => {
     try {
       const response = await fetch(`http://localhost:3000/api/concerts/${id}`, {
@@ -112,6 +148,73 @@ const ConcertPage: React.FC<ConcertPageProps> = ({ isClientView = false }) => {
       navigate("/admin/concerts");
     } catch (error) {
       message.error("Failed to delete concert");
+    }
+  };
+
+  const handleBookTicket = async () => {
+    setTicketLoading(true);
+    try {
+      const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+
+      if (!concert) {
+        throw new Error("Concert data not available");
+      }
+
+      if (!userData.attendee) {
+        throw new Error("User data not available");
+      }
+
+      const response = await fetch("http://localhost:3000/api/tickets", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          concertId: concert.id,
+          attendeeId: userData.attendee.id,
+          price: concert.price,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to book ticket");
+      }
+
+      const ticket = await response.json();
+      setHasTicket(true);
+      setTicketId(ticket.id);
+      message.success("Ticket booked successfully!");
+    } catch (error) {
+      if (error instanceof Error) {
+        message.error(error.message);
+      } else {
+        message.error("Failed to book ticket");
+      }
+    } finally {
+      setTicketLoading(false);
+    }
+  };
+
+  const handleCancelTicket = async () => {
+    setTicketLoading(true);
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/tickets/${ticketId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) throw new Error("Failed to cancel ticket");
+
+      setHasTicket(false);
+      setTicketId(null);
+      message.success("Ticket cancelled successfully");
+    } catch (error) {
+      message.error("Failed to cancel ticket");
+    } finally {
+      setTicketLoading(false);
     }
   };
 
@@ -166,13 +269,15 @@ const ConcertPage: React.FC<ConcertPageProps> = ({ isClientView = false }) => {
                   <Space>
                     {isClientView ? (
                       <Button
-                        type="primary"
+                        type={hasTicket ? "default" : "primary"}
                         size="large"
-                        onClick={() => {
-                          message.info("Booking functionality coming soon!");
-                        }}
+                        onClick={
+                          hasTicket ? handleCancelTicket : handleBookTicket
+                        }
+                        loading={ticketLoading}
+                        danger={hasTicket}
                       >
-                        Book Tickets
+                        {hasTicket ? "Cancel Ticket" : "Book Ticket"}
                       </Button>
                     ) : (
                       <>

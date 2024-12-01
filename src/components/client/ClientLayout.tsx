@@ -7,6 +7,7 @@ import {
   UserOutlined,
   LogoutOutlined,
   CalendarOutlined,
+  DollarOutlined,
 } from "@ant-design/icons";
 
 const { Header, Sider, Content } = Layout;
@@ -25,6 +26,11 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
       key: "/concerts",
       icon: <CalendarOutlined />,
       label: "Concerts",
+    },
+    {
+      key: "/tickets",
+      icon: <DollarOutlined />,
+      label: "My Tickets",
     },
   ];
 

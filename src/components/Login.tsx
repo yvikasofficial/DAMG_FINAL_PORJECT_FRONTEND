@@ -8,13 +8,6 @@ interface LoginFormData {
   password: string;
 }
 
-interface AttendeeData {
-  id: string;
-  name: string;
-  email: string;
-  loyaltyPoints: number;
-}
-
 const Login: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
