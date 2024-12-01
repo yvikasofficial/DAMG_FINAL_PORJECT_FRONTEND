@@ -19,12 +19,12 @@ import {
   EnvironmentOutlined,
   UserOutlined,
   TeamOutlined,
-  VideoCameraOutlined,
   RollbackOutlined,
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
+import Feedback from "../Feedback";
 
 const { Title, Text } = Typography;
 
@@ -273,6 +273,11 @@ const ConcertPage: React.FC<ConcertPageProps> = ({ isClientView = false }) => {
                 <Text>{concert.description}</Text>
               </div>
             </Card>
+
+            <Feedback
+              concertId={parseInt(id ?? "")}
+              isClientView={isClientView}
+            />
           </>
         )}
       </Spin>
