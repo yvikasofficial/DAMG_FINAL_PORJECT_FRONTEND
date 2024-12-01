@@ -12,7 +12,16 @@ import {
   Row,
   Col,
 } from "antd";
-import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  PlusOutlined,
+  DeleteOutlined,
+  UserOutlined,
+  MailOutlined,
+  CalendarOutlined,
+  GlobalOutlined,
+  TeamOutlined,
+  CustomerServiceOutlined,
+} from "@ant-design/icons";
 import dayjs from "dayjs";
 
 const { RangePicker } = DatePicker;
@@ -169,6 +178,8 @@ const ArtistsTable: React.FC = () => {
           {artists.map((artist) => (
             <Col xs={24} sm={12} md={8} lg={6} key={artist.artistId}>
               <Card
+                hoverable
+                className="artist-card"
                 cover={<img alt={artist.name} src="/artist.jpg" />}
                 actions={[
                   <Popconfirm
@@ -184,40 +195,52 @@ const ArtistsTable: React.FC = () => {
                 ]}
               >
                 <Card.Meta
-                  title={artist.name}
+                  title={
+                    <div className="flex items-center gap-2">
+                      <UserOutlined className="text-lg" />
+                      <span>{artist.name}</span>
+                    </div>
+                  }
                   description={
-                    <>
-                      <p>
-                        <strong>Genre:</strong> {artist.genre}
+                    <div className="space-y-2 mt-3">
+                      <p className="flex items-center gap-2">
+                        <CustomerServiceOutlined className="text-lg" />
+                        <span>{artist.genre}</span>
                       </p>
-                      <p>
-                        <strong>Contact:</strong> {artist.contactInfo}
+                      <p className="flex items-center gap-2">
+                        <MailOutlined className="text-lg" />
+                        <span>{artist.contactInfo}</span>
                       </p>
-                      <p>
-                        <strong>Availability:</strong>{" "}
-                        {dayjs(artist.availability.split(" - ")[0]).format(
-                          "MMM D, YYYY"
-                        )}{" "}
-                        -{" "}
-                        {dayjs(artist.availability.split(" - ")[1]).format(
-                          "MMM D, YYYY"
-                        )}
+                      <p className="flex items-center gap-2">
+                        <CalendarOutlined className="text-lg" />
+                        <span>
+                          {dayjs(artist.availability.split(" - ")[0]).format(
+                            "MMM D, YYYY"
+                          )}{" "}
+                          -{" "}
+                          {dayjs(artist.availability.split(" - ")[1]).format(
+                            "MMM D, YYYY"
+                          )}
+                        </span>
                       </p>
-                      <p>
-                        <strong>Social Media:</strong>{" "}
+                      <p className="flex items-center gap-2">
+                        <GlobalOutlined className="text-lg" />
                         <a
                           href={artist.socialMediaLink}
                           target="_blank"
                           rel="noopener noreferrer"
+                          className="hover:underline"
                         >
-                          Link
+                          Social Media
                         </a>
                       </p>
-                      <p>
-                        <strong>Manager:</strong> {artist.manager.name} (
-                        {artist.manager.role})
+                      <p className="flex items-center gap-2">
+                        <TeamOutlined className="text-lg" />
+                        <span>
+                          {artist.manager.name} ({artist.manager.role})
+                        </span>
                       </p>
-                    </>
+                    </div>
                   }
                 />
               </Card>
