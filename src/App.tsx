@@ -12,6 +12,7 @@ import ArtistsTable from "./components/admin/ArtistsTable";
 import VenuesTable from "./components/admin/VenuesTable";
 import ConcertsPage from "./components/admin/ConcertsPage";
 import CreateConcertPage from "./components/admin/CreateConcertPage";
+import DashboardPage from "./components/admin/DashboardPage";
 
 const App: React.FC = () => {
   return (
@@ -42,6 +43,7 @@ const App: React.FC = () => {
                     element={<CreateConcertPage />}
                   />
                   <Route path="/settings" element={<div>Admin Settings</div>} />
+                  <Route path="/dashboard" element={<DashboardPage />} />
                 </Routes>
               </AdminLayout>
             </AdminRoute>
