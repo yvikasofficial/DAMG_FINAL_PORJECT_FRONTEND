@@ -72,6 +72,16 @@ const Login: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <Card className="max-w-md w-full">
         <div className="text-center mb-8">
+          <div className="flex justify-center mb-6">
+            <img
+              src="/logo.png"
+              alt="MKYKV"
+              style={{
+                height: "150px",
+                objectFit: "contain",
+              }}
+            />
+          </div>
           <h2 className="text-3xl font-extrabold text-gray-900">Login</h2>
         </div>
 
