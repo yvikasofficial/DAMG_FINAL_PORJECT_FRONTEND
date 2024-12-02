@@ -12,7 +12,7 @@ import ArtistsTable from "./components/admin/ArtistsTable";
 import VenuesTable from "./components/admin/VenuesTable";
 import ConcertsPage from "./components/admin/ConcertsPage";
 import CreateConcertPage from "./components/admin/CreateConcertPage";
-import DashboardPage from "./components/admin/DashboardPage";
+import DashboardPage from "./components/client/DashboardPage";
 import ConcertPage from "./components/admin/ConcertPage";
 import EditConcertPage from "./components/admin/EditConcertPage";
 import ClientLayout from "./components/client/ClientLayout";
@@ -64,7 +64,8 @@ const App: React.FC = () => {
             <PrivateRoute>
               <ClientLayout>
                 <Routes>
-                  <Route index element={<Navigate to="concerts" replace />} />
+                  <Route index element={<Navigate to="dashboard" replace />} />
+                  <Route path="dashboard" element={<DashboardPage />} />
                   <Route
                     path="concerts"
                     element={<ConcertsPage isClientView={true} />}

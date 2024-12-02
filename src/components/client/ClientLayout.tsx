@@ -7,7 +7,8 @@ import {
   UserOutlined,
   LogoutOutlined,
   CalendarOutlined,
-  DollarOutlined,
+  DashboardOutlined,
+  TagOutlined,
 } from "@ant-design/icons";
 
 const { Header, Sider, Content } = Layout;
@@ -23,13 +24,18 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
 
   const menuItems = [
     {
+      key: "/dashboard",
+      icon: <DashboardOutlined />,
+      label: "Dashboard",
+    },
+    {
       key: "/concerts",
       icon: <CalendarOutlined />,
       label: "Concerts",
     },
     {
       key: "/tickets",
-      icon: <DollarOutlined />,
+      icon: <TagOutlined />,
       label: "My Tickets",
     },
   ];
