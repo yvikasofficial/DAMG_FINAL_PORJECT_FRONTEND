@@ -13,6 +13,7 @@ import VenuesTable from "./components/admin/VenuesTable";
 import ConcertsPage from "./components/admin/ConcertsPage";
 import CreateConcertPage from "./components/admin/CreateConcertPage";
 import DashboardPage from "./components/client/DashboardPage";
+import AdminDashboardPage from "./components/admin/DashboardPage";
 import ConcertPage from "./components/admin/ConcertPage";
 import EditConcertPage from "./components/admin/EditConcertPage";
 import ClientLayout from "./components/client/ClientLayout";
@@ -35,7 +36,7 @@ const App: React.FC = () => {
                     index
                     element={<Navigate to="/admin/dashboard" replace />}
                   />
-                  <Route path="dashboard" element={<DashboardPage />} />
+                  <Route path="dashboard" element={<AdminDashboardPage />} />
                   <Route path="concerts" element={<ConcertsPage />} />
                   <Route
                     path="concerts/create"
