@@ -75,6 +75,7 @@ const EditConcertPage: React.FC = () => {
   const [venues, setVenues] = useState<Venue[]>([]);
   const [artists, setArtists] = useState<Artist[]>([]);
   const [managers, setManagers] = useState<Manager[]>([]);
+  const [originalPrice, setOriginalPrice] = useState<number>(0);
   const [streamingPlatforms, setStreamingPlatforms] = useState<
     StreamingPlatform[]
   >([]);
@@ -105,7 +106,7 @@ const EditConcertPage: React.FC = () => {
             staffRes.json(),
             streamingRes.json(),
           ]);
-
+        setOriginalPrice(concert.price);
         setVenues(venuesData);
         setArtists(artistsData);
         const managersData = staffData
@@ -158,8 +159,24 @@ const EditConcertPage: React.FC = () => {
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Failed to update concert");
+        throw new Error("Failed to update concert");
+      }
+
+      // If price has changed, make additional price update request
+      if (values.price !== originalPrice) {
+        const priceIncrease = values.price - originalPrice;
+        const priceResponse = await fetch(
+          `http://localhost:3000/api/concerts/${id}/price`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ priceIncrease }),
+          }
+        );
+
+        if (!priceResponse.ok) {
+          throw new Error("Failed to update price");
+        }
       }
 
       message.success("Concert updated successfully");
