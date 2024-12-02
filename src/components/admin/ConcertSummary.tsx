@@ -103,18 +103,25 @@ const ConcertSummary: React.FC<ConcertSummaryProps> = ({
 
         <Row className="mt-4">
           <Col span={24}>
-            <div>
+            <div className="border-t pt-4 mt-4">
               <div className="flex justify-between mb-2">
-                <span>Ticket Sales Progress</span>
-                <span>
+                <span className="font-medium">Ticket Sales Progress</span>
+                <span className="font-medium">
                   <TeamOutlined className="mr-2" />
-                  {ticketSalesPercentage.toFixed(1)}%
+                  {summary.ticketsSold} of {summary.ticketLimit} (
+                  {Number(ticketSalesPercentage).toFixed(2)}%)
                 </span>
               </div>
               <Progress
-                percent={ticketSalesPercentage}
+                percent={Number(
+                  Number(Math.min(ticketSalesPercentage, 100)).toFixed(2)
+                )}
                 status={summary.isSoldOut ? "exception" : "active"}
-                showInfo={false}
+                strokeColor={{
+                  "0%": "#108ee9",
+                  "100%": "#87d068",
+                }}
+                showInfo={true}
               />
             </div>
           </Col>
