@@ -25,7 +25,7 @@ import {
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import Feedback from "../Feedback";
-import Sponsorships from "./Sponsorships";
+import ConcertSummary from "./ConcertSummary";
 
 const { Title, Text } = Typography;
 
@@ -235,6 +235,11 @@ const ConcertPage: React.FC<ConcertPageProps> = ({ isClientView = false }) => {
       <Spin spinning={loading}>
         {concert && (
           <>
+            <ConcertSummary
+              concertId={concert.id}
+              isClientView={isClientView}
+            />
+
             <Card className="mb-4">
               <div
                 style={{
@@ -379,8 +384,6 @@ const ConcertPage: React.FC<ConcertPageProps> = ({ isClientView = false }) => {
                 <Text>{concert.description}</Text>
               </div>
             </Card>
-
-            <Sponsorships isClientView={isClientView} concertId={concert.id} />
 
             <Feedback
               concertId={parseInt(id ?? "")}
